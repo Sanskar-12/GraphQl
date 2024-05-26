@@ -3,7 +3,9 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { types } from "./graphql/schema/schema.js";
 import { connectDB } from "./database/database.js";
-import User from "./models/userModel.js";
+import { getUser, getUserById } from "./controllers/user.js";
+import { getCourseById, getCourses } from "./controllers/courses.js";
+import { getLectures } from "./controllers/lectures.js";
 dotenv.config({ path: "./.env" });
 connectDB();
 export const envMode = process.env.NODE_ENV?.trim() || "DEVELOPMENT";
@@ -12,10 +14,23 @@ const server = new ApolloServer({
     typeDefs: types,
     resolvers: {
         Query: {
-            users: async () => {
-                const users = await User.find();
-                console.log(users);
-                return users;
+            users: getUser,
+            courses: getCourses,
+            course: getCourseById,
+            lectures: getLectures,
+        },
+        Course: {
+            instructor: async (course) => {
+                return await getUserById(course.instructor);
+            },
+        },
+        Lecture: {
+            videoUrl: (lectures) => {
+                return {
+                    _480p: lectures.videoUrl["480p"],
+                    _720p: lectures.videoUrl["720p"],
+                    _1080p: lectures.videoUrl["1080p"],
+                };
             },
         },
     },

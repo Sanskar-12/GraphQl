@@ -13,8 +13,50 @@ type User{
     updatedAt:String!
 }
 
+type Course{
+    _id:ID!
+    title:String!
+    description:String!
+    instructor:User!
+    ratingsAverage:Int!
+    ratingsQuantity:Int!
+    price:Int!
+    category:String!
+    subCategory:String!
+    level:String!
+    language:String!
+    whatYouWillLearn:[String]!
+    createdAt:String!
+    updatedAt:String!
+}
+
+type Resource{
+    title:String
+    url:String
+    _id:ID
+}
+
+type VideoUrl{
+    _480p:String
+    _720p:String
+    _1080p:String
+}
+
+type Lecture{
+    _id:ID!
+    title:String!
+    description:String!
+    position:Int!
+    resources:[Resource]
+    videoUrl:VideoUrl
+    # section:Section!
+}
+
 type Query {
     users:[User]
+    courses:[Course]
+    course(id:ID!):Course
+    lectures:[Lecture]
 }
 
 `;
