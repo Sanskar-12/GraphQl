@@ -11,6 +11,7 @@ type User{
     verified:Boolean!
     createdAt:String!
     updatedAt:String!
+    course:[Course]!
 }
 
 type Course{
@@ -52,11 +53,22 @@ type Lecture{
     # section:Section!
 }
 
+type SampleUser{
+    name:String!
+    age:Int!
+    gender:String!
+}
+
 type Query {
     users:[User]
     courses:[Course]
     course(id:ID!):Course
     lectures:[Lecture]
+    sampleUser:[SampleUser]
+}
+
+type Mutation{
+    newUser(name:String!,age:Int!,gender:String!):String!
 }
 
 `;

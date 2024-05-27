@@ -3,7 +3,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { types } from "./graphql/schema/schema.js";
 import { connectDB } from "./database/database.js";
-import { getUser, getUserById } from "./controllers/user.js";
+import { getCourseOfUser, getUser, getUserById } from "./controllers/user.js";
 import { getCourseById, getCourses } from "./controllers/courses.js";
 import { getLectures } from "./controllers/lectures.js";
 
@@ -14,18 +14,43 @@ connectDB();
 export const envMode = process.env.NODE_ENV?.trim() || "DEVELOPMENT";
 const port = Number(process.env.PORT) || 3000;
 
+const user: {
+  name: string;
+  age: number;
+  gender: string;
+}[] = [];
+
 const server = new ApolloServer({
   typeDefs: types,
   resolvers: {
+    Mutation: {
+      newUser: (parent, { name, age, gender }) => {
+        user.push({
+          name,
+          age,
+          gender,
+        });
+
+        return "New User Added";
+      },
+    },
     Query: {
       users: getUser,
       courses: getCourses,
       course: getCourseById,
       lectures: getLectures,
+      sampleUser: () => {
+        return user;
+      },
     },
     Course: {
       instructor: async (course) => {
         return await getUserById(course.instructor);
+      },
+    },
+    User: {
+      course: async (user) => {
+        return await getCourseOfUser(user);
       },
     },
     Lecture: {
