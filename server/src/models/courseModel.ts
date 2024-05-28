@@ -1,5 +1,19 @@
 import mongoose from "mongoose";
 
+export type CourseType = {
+  title: string;
+  description: string;
+  instructor: string;
+  ratingsAverage: number;
+  ratingsQuantity: number;
+  price: number;
+  category: string;
+  subCategory: string;
+  level: string;
+  language: string;
+  whatYouWillLearn: string[];
+};
+
 const schema = new mongoose.Schema(
   {
     title: {
@@ -55,5 +69,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-const Course = mongoose.model("Course", schema);
+const Course = mongoose.model<CourseType>("Course", schema);
 export default Course;

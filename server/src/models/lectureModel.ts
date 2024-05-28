@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+export type LectureType = {
+  title: string;
+  description: string;
+  position: number;
+  resources: string[];
+  videoUrl: {
+    "480p": string;
+    "720p": string;
+    "1080p": string;
+  };
+};
+
 const schema = new mongoose.Schema(
   {
     title: {
@@ -32,5 +44,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-const Lecture = mongoose.model("Lecture", schema);
+const Lecture = mongoose.model<LectureType>("Lecture", schema);
 export default Lecture;

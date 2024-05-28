@@ -1,4 +1,4 @@
-export const types = `#graphql
+export const graphqlSchema = `#graphql
 
 type User{
     _id:ID!

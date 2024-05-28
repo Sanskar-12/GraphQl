@@ -1,5 +1,22 @@
 import mongoose from "mongoose";
 
+export type UserType = {
+  name: string;
+  googleId: string;
+  email: string;
+  password: string;
+  gender: string;
+  avatar: string;
+  verified: boolean;
+  watching: string[];
+  watched: string[];
+  role: string;
+  verificationToken: string;
+  verificationExpire: string;
+  passwordResetToken: string;
+  passwordResetExpire: string;
+};
+
 const schema = new mongoose.Schema(
   {
     name: {
@@ -66,5 +83,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", schema);
+const User = mongoose.model<UserType>("User", schema);
 export default User;
