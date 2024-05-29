@@ -22,9 +22,16 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/graphql", expressMiddleware(server));
+// make sure your cors should be with graphql or ready for cors problem in frontend --- Most important
+app.use(
+  "/graphql",
+  cors<cors.CorsRequest>({
+    origin: "*",
+    credentials: true,
+  }),
+  expressMiddleware(server)
+);
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: " * ", credentials: true }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
